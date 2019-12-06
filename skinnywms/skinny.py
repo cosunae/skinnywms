@@ -1,6 +1,6 @@
 
 
-from skinnywms.wmssvr import application
+from skinnywms.wmssvr import execute
 
 
 __all__ = [
@@ -9,7 +9,8 @@ __all__ = [
 
 
 def main():
-    application.run(debug=True, threaded=False)
+    execute()
+#    application.run(debug=True, threaded=False)
 
 
 if __name__ == '__main__':

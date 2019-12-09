@@ -3,6 +3,12 @@
 ARG MAGICS_IMAGE=ecmwf/magics:4.2.4
 FROM ${MAGICS_IMAGE}
 
+RUN apt-get update && apt-get install --yes ca-certificates curl fuse \
+    && curl -L -O https://github.com/GoogleCloudPlatform/gcsfuse/releases/download/v0.27.0/gcsfuse_0.27.0_amd64.deb \
+    && dpkg --install gcsfuse_0.27.0_amd64.deb \
+    && mkdir /data
+
+COPY ./_mars-atls13-98f536083ae965b31b0d04811be6f4c6-4RPNlk.grib /data/_mars-atls13-98f536083ae965b31b0d04811be6f4c6-4RPNlk.grib
 RUN set -eux \
     && mkdir -p /app/
 
@@ -20,7 +26,7 @@ EXPOSE 5000/tcp
 # start demo
 # add option --path <directory with grib files>
 # to look for grib files in specific directory
-CMD python /app/skinnywms/demo.py --host='0.0.0.0' --port=5000
+CMD python /app/skinnywms/demo.py  --host='0.0.0.0' --port=5000  --path=/data/grib_fc/
 
 # METADATA
 # Build-time metadata as defined at http://label-schema.org
